@@ -1,0 +1,36 @@
+<h2>Guest list</h2>
+
+<button class="btn btn-primary" (click)="hideCustomerNotTakePart = true; ngOnInit()">Show guest which take part only</button>
+<button class="btn btn-primary mx-2 my-3" (click)="sortByName = true; ngOnInit()">Sort by guest name</button>
+
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <th>Primary guest name</th>
+            <th>Takes part?</th>
+            <th>Notes</th>
+            <th>Additional guest?</th>
+            <th>Additional guest name</th>
+            <th>Is present?</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let record of records">
+            <td>{{ record.fields.name }}</td>
+            <td>
+                <input class="from-control" type="checkbox" [checked]="record.fields.takes_part" disabled>
+            </td>
+            <td>{{ record.fields.notes }}</td>
+            <td>
+                <input class="from-control" type="checkbox" [checked]="record.fields.additional_guest" disabled>
+            </td>
+            <td>{{ record.fields.additional_guest_name }}</td>
+            <td>
+                <button class="btn btn-primary" *ngIf="record.fields.takes_part && !record.fields.present" (click)="present(record)">Present</button>
+                <span *ngIf="record.fields.takes_part && record.fields.present">Present</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Total number of guests: <span class="badge bg-primary">{{ getTotalNrOfGuests() }}</span></p>
